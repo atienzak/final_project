@@ -61,8 +61,10 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
     testshooter->setParentItem(this);
     testshooter->setPos(-10,0);
     update();
-    qDebug() << "item clicked";
+    qDebug() << "item clicked" << testshooter->zValue();
     }
+
+
 
 }
 

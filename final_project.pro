@@ -28,7 +28,6 @@ SOURCES += \
         mainwindow.cpp \
     grid.cpp \
     view.cpp \
-    board.cpp \
     scene.cpp \
     shooter.cpp \
     bullet.cpp \
@@ -38,7 +37,6 @@ HEADERS += \
         mainwindow.h \
     grid.h \
     view.h \
-    board.h \
     scene.h \
     shooter.h \
     bullet.h \

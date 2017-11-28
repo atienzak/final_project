@@ -14,16 +14,7 @@ public:
 protected:
     QGraphicsScene * scene;
     QGraphicsWidget * form;
-    Grid * test00;
-    Grid * test01;
-    Grid * test02;
-    Grid * test03;
-    Grid * test04;
-    Grid * test05;
-    Grid * test06;
-    Grid * test07;
-    Grid * test08;
-    Grid * test09;
+
     Enemy* en;
 
 
