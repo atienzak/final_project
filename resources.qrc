@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>background.jpg</file>
+        <file>Buck Teeth Monster-256x256</file>
+        <file>Cute Brown Monster-256x256 (1)</file>
+        <file>Yellow Cyclops Monster-256x256</file>
+        <file>mainBackground.png</file>
+        <file>957-large-blue-circle.png</file>
+        <file>zombie.png</file>
+    </qresource>
+</RCC>
