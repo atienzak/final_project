@@ -11,19 +11,16 @@ class Grid : public QGraphicsWidget
 {
 public:
     Grid(QGraphicsWidget *parent = 0);
-    //QRectF boundingRect() const;
-    void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
+    void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void setGeometry(const QRectF &geom) override;
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const override;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 
 private:
-    int shooter_id;
-    QPixmap pic;
-    Shooter * testshooter;
+    QSize monster_size;
+    Shooter * shooter;
 
 
 };

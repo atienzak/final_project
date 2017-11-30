@@ -3,7 +3,7 @@
 #define VIEW_H
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include "board.h"
+
 #include "grid.h"
 #include "scene.h"
 

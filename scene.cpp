@@ -1,9 +1,117 @@
 #include "scene.h"
+#include <QTime>
 
-Scene::Scene(QObject *parent) : QGraphicsScene(parent), scene(nullptr)
+Scene::Scene() :  background(nullptr), grid_vector({}), form(nullptr)
 {
-    //scene = new QGraphicsScene;
+
+    QTime timer;
+    timer.start();
+    //initializing values through try-catch
+   // try
+    //{
+        background = new QGraphicsPixmapItem;
+        board_layout = new QGraphicsGridLayout;
+        form = new QGraphicsWidget;
+        for (int i = 0; i < 50; i++)
+        {
+            grid_vector.push_back(new Grid);
+        }
+
+    //}
+    /*
+    catch (std::exception &e)
+    {
+        delete background;
+        delete board_layout;
+        for (int i = 0, n = grid_vector.size(); i < n; i++)
+        {
+            delete grid_vector[i];
+        }
+
+        background = nullptr;
+        board_layout = nullptr;
+        for (int i = 0, n = grid_vector.size(); i < n; i++)
+        {
+            grid_vector[i] = nullptr;
+        }
+
+        throw;
+    }
+    */
+
+    //sceneRect has the same aspect ratio as the background image
     setSceneRect(0,0,1900,1000);
+
+    //adding background
+    background->setPixmap(QPixmap(":/images/mainBackground.png"));
+    addItem(background);
+    ///*
+    //adding grid vectors in a board layout for (int i = 0; i < 25; i++)
+
+    int j = 0;
+    int k = 0;
+    int i = 0;
+
+        while (j < 5)
+        {
+            while (k < 10)
+            {
+                board_layout->addItem(grid_vector[i],j,k);
+                i++;
+                k++;
+            }
+
+            j++;
+            k = 0;
+        }
+    //QCoreApplication::processEvents();
+    //*/
+    /*
+    board_layout->addItem(grid_vector[0],0,1);
+    board_layout->addItem(grid_vector[1],0,2);
+    board_layout->addItem(grid_vector[2],0,3);
+    board_layout->addItem(grid_vector[3],0,4);
+    board_layout->addItem(grid_vector[4],0,5);
+    board_layout->addItem(grid_vector[5],0,6);
+    board_layout->addItem(grid_vector[6],0,7);
+
+    //*/
+
+
+
+    form->setLayout(board_layout);
+    form->mapToItem(background,0,0);
+    addItem(form);
+    form->setPos(170,197);
+
+    en = new Enemy();
+    addItem(en);
+    en->setPos(1800,185);
+
+    int ml = timer.elapsed();
+    qDebug() << "building scene: " << ml;
+
+
+}
+
+/*
+{
+
+    try
+    {
+        background = new QGraphicsPixmapItem;
+        board_layout = new QGraphicsGridLayout;
+        for (size_t = 0; size_t < 25; ++size_t)
+        {
+            grid_list.push_back(new Grid);
+        }
+
+    }
+
+
+    //sceneRect has the same aspect ratio as the background image
+    setSceneRect(0,0,1900,1000);
+
 
 
     Grid * test01 = new Grid();
@@ -17,15 +125,13 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent), scene(nullptr)
     Grid * test09 = new Grid();
     Grid * test00 = new Grid();
 
-    QGraphicsPixmapItem * se = new QGraphicsPixmapItem();
-    se->setPixmap(QPixmap(":/images/mainBackground.png"));
 
-    addItem(se);
-    //scene->addWidget(test);
-    //scene->addWidget(test1);
-    //test->setPos(100,100);
+    background = new QGraphicsPixmapItem();
+    background->setPixmap(QPixmap(":/images/mainBackground.png"));
 
-    QGraphicsGridLayout* mb = new QGraphicsGridLayout();
+    addItem(background);
+
+    board_layout = new QGraphicsGridLayout();
 
     mb->addItem(test00, 0, 0);
     mb->addItem(test01, 0, 1);
@@ -41,7 +147,7 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent), scene(nullptr)
 
     form = new QGraphicsWidget;
     form->setLayout(mb);
-    form->mapToItem(se,0,0);
+    form->mapToItem(background,0,0);
     addItem(form);
     form->setPos(170,197);
 
@@ -49,6 +155,6 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent), scene(nullptr)
     addItem(en);
     en->setPos(1800,185);
 
-    //setSceneRect(itemsBoundingRect());
 }
 
+*/

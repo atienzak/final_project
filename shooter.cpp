@@ -7,4 +7,9 @@ Shooter::Shooter(QGraphicsItem *parent)
     bullet->setParentItem(this);
 }
 
+void Shooter::activate()
+{
+    bullet->begin_move();
+
+}
 

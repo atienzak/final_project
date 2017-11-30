@@ -2,6 +2,8 @@
 #define ENEMY_H
 #include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QTime>
+#include <QDebug>
 
 class Enemy : public QObject, public QGraphicsPixmapItem
 {
@@ -14,6 +16,7 @@ public slots:
     void move_enemy();
 private:
     QTimer * move_timer;
+    QTime timer;
 
 
 };

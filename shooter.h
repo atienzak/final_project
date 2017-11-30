@@ -7,6 +7,7 @@ class Shooter : public QGraphicsPixmapItem
 {
 public:
     Shooter(QGraphicsItem * parent = 0);
+    void activate();
 
 protected slots:
     //void shoot()

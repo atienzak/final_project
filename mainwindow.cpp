@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tests = new Scene();
     testv = new View(tests);
     setCentralWidget(testv);
+    setFixedSize(1200,769);
 
 
 }
@@ -19,4 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete tests;
+    delete testv;
 }
