@@ -1,23 +1,26 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 #include <QTimer>
 #include <QTime>
+#include <QPainter>
 #include <QDebug>
-
-class Enemy : public QObject, public QGraphicsPixmapItem
+#include <cstdlib>
+class Enemy : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 
 public:
-    Enemy(QGraphicsItem * parent = 0);
+    Enemy(int num = 0, QGraphicsItem * parent = 0);
+    void advance(int phase);
+    void move();
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget* widget);
 
-public slots:
-    void move_enemy();
 private:
-    QTimer * move_timer;
     QTime timer;
-
+    QPixmap pic;
+    int randomnum;
 
 };
 

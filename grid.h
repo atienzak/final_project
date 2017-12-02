@@ -1,3 +1,4 @@
+
 #ifndef GRID_H
 #define GRID_H
 #include <QGraphicsItem>
@@ -5,6 +6,7 @@
 #include <QPainter>
 #include <QGraphicsWidget>
 #include <QDebug>
+
 #include "shooter.h"
 
 class Grid : public QGraphicsWidget
@@ -21,6 +23,7 @@ protected:
 private:
     QSize monster_size;
     Shooter * shooter;
+    QTime time;
 
 
 };

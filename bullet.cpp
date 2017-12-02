@@ -5,7 +5,7 @@ Bullet::Bullet(QGraphicsItem *parent)
     setPixmap(QPixmap(":/images/957-large-blue-circle.png").scaled(35,35));
     move_timer = new QTimer();
     setFlag(ItemIsMovable);
-    connect(move_timer, SIGNAL(timeout()), this, SLOT (move_bullet()));
+    //connect(move_timer, SIGNAL(timeout()), this, SLOT (move_bullet()));
     move_timer->start(100);
     setPos(70,50);
 
@@ -14,12 +14,14 @@ Bullet::Bullet(QGraphicsItem *parent)
 
 void Bullet::begin_move()
 {
-    connect(move_timer, SIGNAL(timeout()), this, SLOT (move_bullet()));
+    //connect(move_timer, SIGNAL(timeout()), this, SLOT (move_bullet()));
 }
 
-void Bullet::move_bullet()
+void Bullet::advance(int phase)
 {
-    setPos(x()+10, y());
+    if (!phase)
+        return;
+    setPos(x()+20, y());
     /*colliding_list = collidingItems();
 
     foreach(QGraphicsItem * i , colliding_list)

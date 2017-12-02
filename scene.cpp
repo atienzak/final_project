@@ -41,10 +41,10 @@ Scene::Scene() :  background(nullptr), grid_vector({}), form(nullptr)
 
     //sceneRect has the same aspect ratio as the background image
     setSceneRect(0,0,1900,1000);
-
+    setBackgroundBrush(QPixmap(":/images/mainBackground.png"));
     //adding background
-    background->setPixmap(QPixmap(":/images/mainBackground.png"));
-    addItem(background);
+    //background->setPixmap(QPixmap(":/images/mainBackground.png"));
+    //addItem(background);
     ///*
     //adding grid vectors in a board layout for (int i = 0; i < 25; i++)
 
@@ -77,20 +77,50 @@ Scene::Scene() :  background(nullptr), grid_vector({}), form(nullptr)
 
     //*/
 
-
-
     form->setLayout(board_layout);
     form->mapToItem(background,0,0);
     addItem(form);
     form->setPos(170,197);
 
-    en = new Enemy();
+    en = new Enemy(100);
+    en1 = new Enemy(74);
+    en2 = new Enemy(32);
+    en3 = new Enemy(78);
+    en4 = new Enemy(3);
+
     addItem(en);
+    addItem(en1);
+    addItem(en2);
+    addItem(en3);
+    addItem(en4);
+
     en->setPos(1800,185);
+    en1->setPos(1800,370);
+    en2->setPos(1800,555);
+    en3->setPos(1800,740);
+    en4->setPos(1800,925);
+
+    //tmove = new QTimer();
+    //tmove->setTimerType(Qt::PreciseTimer);
+    //connect(tmove, SIGNAL(timeout()), this, SLOT(advance()));
+   // connect (tmove, SIGNAL(timeout()), this, SLOT(working()));
+   // tmove->start(100);
 
     int ml = timer.elapsed();
     qDebug() << "building scene: " << ml;
+    timerId = startTimer(100, Qt::PreciseTimer);
 
+
+}
+
+void Scene::timerEvent(QTimerEvent *event)
+{
+    //qDebug() << "Timer ID:" << event->timerId();
+    en->move();
+    en1->move();
+    en2->move();
+    en3->move();
+    en4->move();
 
 }
 

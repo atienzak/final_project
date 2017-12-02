@@ -12,8 +12,11 @@ class Bullet : public QObject, public QGraphicsPixmapItem
 public:
     Bullet(QGraphicsItem * parent = 0);
     void begin_move();
+    void advance(int phase);
+   /*
 public slots:
     void move_bullet();
+    */
 private:
     QTimer* move_timer;
    // QList<QGraphicsItem*> colliding_list;

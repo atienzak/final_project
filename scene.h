@@ -7,14 +7,20 @@
 #include "enemy.h"
 
 
-class Scene : public QGraphicsScene
+class Scene :public QGraphicsScene
 {
+
 public:
     Scene();
     //~Scene();
+    void timerEvent(QTimerEvent* event);
 
 protected:
     Enemy* en;
+    Enemy* en1;
+    Enemy* en2;
+    Enemy* en3;
+    Enemy* en4;
 
 private:
 
@@ -25,6 +31,10 @@ private:
     QVector<Grid*> grid_vector;
     QGraphicsWidget* form;
     QGraphicsGridLayout* board_layout;
+
+    //timer for animation
+    QTimer* tmove;
+    int timerId;
 
 
 

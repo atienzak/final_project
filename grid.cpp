@@ -5,8 +5,7 @@ Grid::Grid(QGraphicsWidget *parent) : QGraphicsWidget(parent), shooter(nullptr),
     // the monster size is determined through the size of the monster pictures
     monster_size = QPixmap(":/images/Cute Brown Monster-256x256 (1)").scaled(133,133).size();
 
-
-
+    time.start();
 }
 
 void Grid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -51,6 +50,9 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
    // try
+    time.restart();
+
+
      //   {
             if (shooter == nullptr)
             {
@@ -58,10 +60,13 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 shooter->setParentItem(this);
                 shooter->setPos(-10,0);
                 qDebug() << "grid clicked";
-                update();
+                //update();
                 QGraphicsItem::mousePressEvent(event);
 
             }
+
+            int nMilliseconds = time.elapsed();
+            qDebug() << "making monster: " << nMilliseconds;
        // }
 /*
    catch(std::exception &e )
