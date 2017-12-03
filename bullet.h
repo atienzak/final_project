@@ -1,26 +1,25 @@
 #ifndef BULLET_H
 #define BULLET_H
 #include <QGraphicsPixmapItem>
-#include <QTimer>
 #include <QList>
 #include <QDebug>
 #include "enemy.h"
-class Bullet : public QObject, public QGraphicsPixmapItem
+
+class Bullet :  public QGraphicsPixmapItem
 {
-    Q_OBJECT
 
 public:
-    Bullet(QGraphicsItem * parent = 0);
-    void begin_move();
-    void advance(int phase);
-   /*
-public slots:
-    void move_bullet();
-    */
-private:
-    QTimer* move_timer;
-   // QList<QGraphicsItem*> colliding_list;
 
+    Bullet(QGraphicsItem * parent = 0);
+
+    // moves the bullet
+    void advance(int phase);
+
+    //check collision against zombies
+    bool checkEnemyCollision();
+
+private:
+    QPixmap bulletPixmap;
 
 };
 

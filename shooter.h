@@ -7,13 +7,12 @@ class Shooter : public QGraphicsPixmapItem
 {
 public:
     Shooter(QGraphicsItem * parent = 0);
-    void activate();
-
-protected slots:
-    //void shoot()
+    void spawnBullet();
+    void advance(int phase);
 
 private:
-    Bullet * bullet;
+    QVector<Bullet*> bullets;
+    int bulletTimeDelay;
 
 };
 #endif

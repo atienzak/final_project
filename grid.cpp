@@ -1,28 +1,48 @@
 #include "grid.h"
-#include <QCoreApplication>
-Grid::Grid(QGraphicsWidget *parent) : QGraphicsWidget(parent), shooter(nullptr), monster_size(QSize())
-{
-    // the monster size is determined through the size of the monster pictures
-    monster_size = QPixmap(":/images/Cute Brown Monster-256x256 (1)").scaled(133,133).size();
 
-    time.start();
+Grid::Grid(QGraphicsWidget *parent) : QGraphicsWidget(parent), shooter(nullptr)
+{
+    try
+    {
+        shooter = new Shooter();
+    }
+    catch(std::exception &e )
+    {
+        delete shooter;
+        shooter = nullptr;
+        throw;
+    }
 }
 
+/**
+ * @brief Grid::paint for paint events
+ * @param painter to draw the grid
+ * @param option unused
+ * @param widget unused
+ */
 void Grid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //making the size of the grid, with an offset to match the background coordinates
+    //making the size of the grid, with an offset to match the background coordinates -
     QRectF bounds = QRectF(-13,-15,152,152);
 
-    QColor c(215,215,193); // grayish-white
-    QBrush cst(c, Qt::SolidPattern);
+    //customizing rectangle
+    QColor color = QColor(215,215,193); // grayish-white color
+    QBrush cst = QBrush(color, Qt::SolidPattern);
     QPen pen = QPen(cst, 1, Qt::SolidLine, Qt::RoundCap);
+
     painter->setPen(pen);
     painter->drawRect(bounds);
 
-
     setTransformOriginPoint(boundingRect().center());
+
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
 }
 
+/**
+ * @brief Grid::setGeometry to determine size relative to parent
+ * @param geom rectangle that houses the item
+ */
 void Grid::setGeometry(const QRectF &geom)
 {
     prepareGeometryChange();
@@ -30,14 +50,19 @@ void Grid::setGeometry(const QRectF &geom)
     setPos(geom.topLeft());
 }
 
+/**
+ * @brief Grid::sizeHint for window resizing purposes
+ * @param which recommended size
+ * @param constraint max size
+ * @return the size of the whole widget
+ */
 QSizeF Grid::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
 {
-
     switch (which) {
        case Qt::MinimumSize:
        case Qt::PreferredSize:
-           // Do not allow a size smaller than the pixmap with two frames around it.
-          return monster_size + QSize(10, 10);
+           // can't be larger than the pixmap item itself
+          return QSize(133,133) + QSize(10, 10);
        case Qt::MaximumSize:
            return QSizeF(1000,1000);
        default:
@@ -46,38 +71,18 @@ QSizeF Grid::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
        return constraint;
 }
 
+/**
+ * @brief Grid::mousePressEvent to create the shooters
+ * @param event mouse press event
+ */
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+     // to "show" the shooter that has already been allocated on the heap
+     shooter->setParentItem(this);
+     shooter->setPos(-10,0); // centering the shooter within the bounds
+     // for debugging purposes only
+     qDebug() << "grid clicked";
 
-   // try
-    time.restart();
-
-
-     //   {
-            if (shooter == nullptr)
-            {
-                shooter = new Shooter();
-                shooter->setParentItem(this);
-                shooter->setPos(-10,0);
-                qDebug() << "grid clicked";
-                //update();
-                QGraphicsItem::mousePressEvent(event);
-
-            }
-
-            int nMilliseconds = time.elapsed();
-            qDebug() << "making monster: " << nMilliseconds;
-       // }
-/*
-   catch(std::exception &e )
-        {
-            qDebug() << "exception occurs";
-            delete shooter;
-            shooter = nullptr;
-            throw;
-        }
-
-    shooter->activate();
-*/
+     QGraphicsItem::mousePressEvent(event);
 }
 

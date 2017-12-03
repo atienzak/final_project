@@ -5,42 +5,45 @@
 #include "grid.h"
 #include <QGraphicsGridLayout>
 #include "enemy.h"
-
+#include <QTimer>
+#include <QObject>
+#include <cstdlib>
 
 class Scene :public QGraphicsScene
 {
+    Q_OBJECT
 
 public:
     Scene();
-    //~Scene();
-    void timerEvent(QTimerEvent* event);
+    void constructBoard();
 
-protected:
-    Enemy* en;
-    Enemy* en1;
-    Enemy* en2;
-    Enemy* en3;
-    Enemy* en4;
+protected slots:
+    void spawnEnemies();
+
 
 private:
 
     //background item
-    QGraphicsPixmapItem* background;
+    QPixmap background;
 
     //objects needed to form the board
-    QVector<Grid*> grid_vector;
+    QVector<Grid*> gridVector;
     QGraphicsWidget* form;
-    QGraphicsGridLayout* board_layout;
+    QGraphicsGridLayout* boardLayout;
 
     //timer for animation
     QTimer* tmove;
-    int timerId;
 
+    //timer to spawn zombies
+    QTimer* spawnTimer;
+    int spawnDelay;
+    int randomPos;
 
-
-
+    QVector<Enemy*> zombies;
+    int zombieCounter;
 
 };
+
 
 
 #endif // SCENE_H
