@@ -34,6 +34,8 @@ void Shooter::advance(int phase)
 {
     if (!phase)
         return;
+    //if (checkEnemyCollision())
+      //  return;
     spawnBullet(shooting);//shooting);
 }
 
@@ -51,5 +53,28 @@ void Shooter::deactivate()
 {
     shooting = false;
 }
+/*
+bool Shooter::checkEnemyCollision()
+{
+
+
+        //returns all the items colliding with the bullet
+        QList<QGraphicsItem*> colliding_list = collidingItems();
+
+        //if the item is an enemy, then delete the bullet
+        foreach(QGraphicsItem * i , colliding_list)
+        {
+            Enemy * item= dynamic_cast<Enemy *>(i);
+            if (item)
+            {
+               delete item;
+               delete this;
+               return true;
+            }
+        }
+        return false;
+
+
+}*/
 
 

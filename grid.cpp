@@ -71,6 +71,26 @@ QSizeF Grid::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
     return constraint;
 }
 
+bool Grid::checkEnemyCollision()
+{
+    //returns all the items colliding with the bullet
+    QList<QGraphicsItem*> colliding_list = collidingItems();
+
+    //if the item is an enemy, then delete the bullet
+    foreach(QGraphicsItem * i , colliding_list)
+    {
+        Enemy * item= dynamic_cast<Enemy *>(i);
+        if (item && shooter->parentItem() == this)
+        {
+           delete item;
+           delete shooter;
+           shooter = new Shooter();
+           return true;
+        }
+    }
+    return false;
+}
+
 void Grid::activate()
 {
     if (shooter->parentItem() != this) // shooter is not built in the grid yet
@@ -86,6 +106,11 @@ void Grid::deactivate()
 
     shooter->deactivate();
 }
+
+void Grid::advance(int phase)
+{
+    checkEnemyCollision();
+}
 /**
  * @brief Grid::mousePressEvent to create the shooters
  * @param event mouse press event
@@ -93,10 +118,13 @@ void Grid::deactivate()
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
      // to "show" the shooter that has already been allocated on the heap
+    if (shooter->parentItem() != this)
+    {
      shooter->setParentItem(this);
      shooter->setPos(-10,0); // centering the shooter within the bounds
      // for debugging purposes only
      qDebug() << "grid clicked";
+    }
 
      QGraphicsItem::mousePressEvent(event);
 }

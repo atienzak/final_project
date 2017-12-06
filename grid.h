@@ -15,10 +15,10 @@ public:
     void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void setGeometry(const QRectF &geom) override;
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const override;
-
+    bool checkEnemyCollision();
     void activate();
     void deactivate();
-
+    void advance(int phase);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 

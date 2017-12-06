@@ -12,6 +12,7 @@ public:
     bool isShooting();
     void activate();
     void deactivate();
+   // bool checkEnemyCollision();
 
 private:
     QVector<Bullet*> bullets;
