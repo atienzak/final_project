@@ -16,6 +16,9 @@ public:
     void setGeometry(const QRectF &geom) override;
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const override;
 
+    void activate();
+    void deactivate();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 

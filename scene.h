@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QObject>
 #include <cstdlib>
-
+#include <QGraphicsLineItem>
 class Scene :public QGraphicsScene
 {
     Q_OBJECT
@@ -16,6 +16,9 @@ class Scene :public QGraphicsScene
 public:
     Scene();
     void constructBoard();
+
+protected:
+    void activateShooters(int row);
 
 protected slots:
     void spawnEnemies();
@@ -41,6 +44,8 @@ private:
 
     QVector<Enemy*> zombies;
     int zombieCounter;
+
+    QVector<QGraphicsLineItem*> zombieChecker;
 
 };
 

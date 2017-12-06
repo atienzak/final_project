@@ -3,7 +3,8 @@
 Shooter::Shooter(QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent),
     bullets({}),
-    bulletTimeDelay(49)
+    bulletTimeDelay(49),//,
+    shooting(false)
 {
     setPixmap(QPixmap(":/images/Cute Brown Monster-256x256 (1)").scaled(133,130));
     /*
@@ -13,26 +14,42 @@ Shooter::Shooter(QGraphicsItem *parent) :
     }*/
 }
 
-void Shooter::spawnBullet()
+void Shooter::spawnBullet(bool shoot)
 {
-    bulletTimeDelay++;
-    if (bulletTimeDelay % 50 != 0)
+    if (shoot)
     {
-        return;
+        bulletTimeDelay++;
+        if (bulletTimeDelay % 50 != 0)
+        {
+            return;
+        }
+
+        bullets.push_back(new Bullet);
+        bullets[bullets.size() - 1]->setParentItem(this);
+        bulletTimeDelay = 0;
     }
-
-    bullets.push_back(new Bullet);
-    bullets[bullets.size() - 1]->setParentItem(this);
-    bulletTimeDelay = 0;
-
 }
 
 void Shooter::advance(int phase)
 {
     if (!phase)
         return;
-    spawnBullet();
+    spawnBullet(shooting);//shooting);
 }
 
+bool Shooter::isShooting()
+{
+    return shooting;
+}
+
+void Shooter::activate()
+{
+    shooting = true;
+}
+
+void Shooter::deactivate()
+{
+    shooting = false;
+}
 
 

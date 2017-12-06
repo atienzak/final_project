@@ -68,9 +68,24 @@ QSizeF Grid::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
        default:
            break;
        }
-       return constraint;
+    return constraint;
 }
 
+void Grid::activate()
+{
+    if (shooter->parentItem() != this) // shooter is not built in the grid yet
+        return;
+
+    shooter->activate();
+}
+
+void Grid::deactivate()
+{
+    if (shooter->parentItem() != this)
+        return;
+
+    shooter->deactivate();
+}
 /**
  * @brief Grid::mousePressEvent to create the shooters
  * @param event mouse press event

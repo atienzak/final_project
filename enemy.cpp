@@ -35,7 +35,7 @@ void Enemy::advance(int phase)
     if (!phase)
         return;
 
-    setPos(x()-8,y());
+    setPos(x()-20,y());
 
     if (x() <= 0)
     {
@@ -50,7 +50,7 @@ void Enemy::advance(int phase)
 
     //for debugging puposes only
     int nMilliseconds = timer.elapsed();
-    qDebug() << "moving enemy: " << nMilliseconds;
+    //qDebug() << "moving enemy: " << nMilliseconds;
     timer.restart();
 
 }
