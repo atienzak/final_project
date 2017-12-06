@@ -1,12 +1,16 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>background.jpg</file>
-        <file>Buck Teeth Monster-256x256</file>
-        <file>Cute Brown Monster-256x256 (1)</file>
-        <file>Yellow Cyclops Monster-256x256</file>
-        <file>mainBackground.png</file>
-        <file>957-large-blue-circle.png</file>
-        <file>zombie.png</file>
-        <file>zombiesprite</file>
+    <qresource prefix="/">
+        <file>images/4-heart-png-image-download-thumb.png</file>
+        <file>images/957-large-blue-circle.png</file>
+        <file>images/background.jpg</file>
+        <file>images/background1.jpg</file>
+        <file>images/Buck Teeth Monster-256x256</file>
+        <file>images/Cute Brown Monster-256x256 (1)</file>
+        <file>images/final_project.pro.user</file>
+        <file>images/mainBackground.png</file>
+        <file>images/resources.qrc</file>
+        <file>images/Yellow Cyclops Monster-256x256</file>
+        <file>images/zombie.png</file>
+        <file>images/zombiesprite</file>
     </qresource>
 </RCC>
