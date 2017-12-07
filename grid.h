@@ -1,10 +1,12 @@
-
 #ifndef GRID_H
 #define GRID_H
 #include <QPainter>
 #include <QGraphicsWidget>
 #include <QDebug>
 #include "shooter.h"
+
+extern Player* player;
+
 
 class Grid : public QGraphicsWidget
 {

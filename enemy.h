@@ -4,6 +4,9 @@
 #include <QTime>
 #include <QPainter>
 #include <QDebug>
+#include "player.h"
+
+extern Player* player;
 
 class Enemy : public QGraphicsItem
 {
@@ -22,6 +25,8 @@ public:
     //painter to draw the next frame
     void nextFrame();
 
+    void increaseMoveSpeed(int zombieskilled);
+
 private:
 
     //to paint the pixmap
@@ -29,6 +34,7 @@ private:
     QPixmap enemyPixmap;
 
     QTime timer; // for debugging purposes only
+    int moveSpeed; // speed of zombies increases as zombies killed increases
 
 };
 

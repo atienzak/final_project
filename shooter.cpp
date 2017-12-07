@@ -24,9 +24,13 @@ void Shooter::spawnBullet(bool shoot)
             return;
         }
 
+        //Bullet newbullet;
+        //newbullet.setParentItem(this);
+        //bulletTimeDelay = 0;
+
         bullets.push_back(new Bullet);
         bullets[bullets.size() - 1]->setParentItem(this);
-        bulletTimeDelay = 0;
+        bulletTimeDelay = 0; // have to parent these items
     }
 }
 

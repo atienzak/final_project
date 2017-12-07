@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/4-heart-png-image-download-thumb.png</file>
         <file>images/957-large-blue-circle.png</file>
         <file>images/background.jpg</file>
         <file>images/background1.jpg</file>

@@ -4,6 +4,9 @@
 #include <QList>
 #include <QDebug>
 #include "enemy.h"
+#include "player.h"
+
+extern Player* player;
 
 class Bullet :  public QGraphicsPixmapItem
 {

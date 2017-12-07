@@ -4,7 +4,8 @@
 Enemy::Enemy(QGraphicsItem *parent) :
     QGraphicsItem(parent),
     currentFrame(0),
-    enemyPixmap(QPixmap(":/images/zombiesprite").scaled(1002,162))
+    enemyPixmap(QPixmap(":/images/zombiesprite").scaled(1002,162)),
+    moveSpeed(10)
 {
     setFlag(ItemClipsToShape);
     timer.start(); // for debugging purposes only
@@ -35,11 +36,13 @@ void Enemy::advance(int phase)
     if (!phase)
         return;
 
-    setPos(x()-20,y());
+    setPos(x()-moveSpeed,y());
 
     if (x() <= 0)
-    {
+    {       
         qDebug() << "enemy deleted";
+        player->subtractLives();
+        qDebug() << "lives left " << player->getLives();
         delete this;
     }
 
@@ -53,5 +56,30 @@ void Enemy::advance(int phase)
     //qDebug() << "moving enemy: " << nMilliseconds;
     timer.restart();
 
+    increaseMoveSpeed(player->getZombiesKilled());
+
+}
+
+void Enemy::increaseMoveSpeed(int zombieskilled)
+{
+
+    if (player->getZombiesKilled() >= 10 && player->getZombiesKilled() < 20 && moveSpeed == 10)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 20 && player->getZombiesKilled() < 30 && moveSpeed == 15)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 30 && player->getZombiesKilled() < 40 && moveSpeed == 20)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 40 && player->getZombiesKilled() < 50 && moveSpeed == 25)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 50 && player->getZombiesKilled() < 60 && moveSpeed == 30)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 60 && player->getZombiesKilled() < 70 && moveSpeed == 35)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 70 && player->getZombiesKilled() < 80 && moveSpeed == 40)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 80 && player->getZombiesKilled() < 90 && moveSpeed == 45)
+        moveSpeed +=5;
+    else if (player->getZombiesKilled() >= 90 && player->getZombiesKilled() < 100 && moveSpeed == 50)
+        moveSpeed +=5;
 }
 

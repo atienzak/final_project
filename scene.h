@@ -9,6 +9,12 @@
 #include <QObject>
 #include <cstdlib>
 #include <QGraphicsLineItem>
+#include "player.h"
+#include <QGraphicsProxyWidget>
+#include <QLCDNumber>
+#include <QMessageBox>
+
+extern Player* player;
 class Scene :public QGraphicsScene
 {
     Q_OBJECT
@@ -20,8 +26,10 @@ public:
 protected:
     void activateShooters(int row);
 
+
 protected slots:
     void spawnEnemies();
+    void updateData();
 
 
 private:
@@ -47,6 +55,19 @@ private:
 
     QVector<QGraphicsLineItem*> zombieChecker;
 
+    QGraphicsTextItem* label1;
+    QLCDNumber* zombiesKilledDisplay;
+    QGraphicsProxyWidget* zombiesKilled;
+
+    QGraphicsTextItem* label2;
+    QLCDNumber* moneyLeftDisplay;
+    QGraphicsProxyWidget* moneyLeft;
+
+    QGraphicsTextItem* label3;
+    QLCDNumber* livesLeftDisplay;
+    QGraphicsProxyWidget* livesLeft;
+
+    QMessageBox* gameOver;
 };
 
 

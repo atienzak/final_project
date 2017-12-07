@@ -31,7 +31,8 @@ SOURCES += \
     scene.cpp \
     shooter.cpp \
     bullet.cpp \
-    enemy.cpp
+    enemy.cpp \
+    player.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS += \
     scene.h \
     shooter.h \
     bullet.h \
-    enemy.h
+    enemy.h \
+    player.h
 
 FORMS += \
         mainwindow.ui

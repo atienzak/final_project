@@ -109,15 +109,22 @@ void Grid::deactivate()
 
 void Grid::advance(int phase)
 {
+    if (!phase)
+        return;
+
     checkEnemyCollision();
 }
+
 /**
  * @brief Grid::mousePressEvent to create the shooters
  * @param event mouse press event
  */
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-     // to "show" the shooter that has already been allocated on the heap
+    if (player->getMoney() < 50)
+        return;
+
+     // to make the shooter
     if (shooter->parentItem() != this)
     {
      shooter->setParentItem(this);
@@ -125,6 +132,8 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
      // for debugging purposes only
      qDebug() << "grid clicked";
     }
+
+    player->subtractMoney();
 
      QGraphicsItem::mousePressEvent(event);
 }

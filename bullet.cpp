@@ -47,8 +47,11 @@ bool Bullet::checkEnemyCollision()
         Enemy * item= dynamic_cast<Enemy *>(i);
         if (item)
         {
+           player->addZombiesKilled();
+           qDebug() << "killed " << player->getZombiesKilled();
            delete item;
            delete this;
+           player->addMoney();
            return true;
         }
     }

@@ -18,6 +18,7 @@ private:
     QVector<Bullet*> bullets;
     int bulletTimeDelay;
     int shooting;
+    //Bullet newbullet;
 
 };
 #endif

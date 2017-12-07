@@ -6,7 +6,8 @@ Player::Player() : lives(3), zombiesKilled(0), money(100)
 
 void Player::subtractLives()
 {
-    lives--;
+    if (lives != 0)
+        lives--;
 }
 
 void Player::addZombiesKilled()
@@ -16,7 +17,7 @@ void Player::addZombiesKilled()
 
 void Player::addMoney()
 {
-    money += 25; // adds 25 everytime a zombie is killed; costs 50 to build a shooter
+    money += 20; // adds 25 everytime a zombie is killed; costs 50 to build a shooter
 }
 
 void Player::subtractMoney()

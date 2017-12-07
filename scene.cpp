@@ -73,22 +73,69 @@ Scene::Scene() :
     //spawnTimer->setTimerType(Qt::PreciseTimer);
     connect(tmove, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
     //spawnTimer->start(1000);
+    connect(tmove, SIGNAL(timeout()), this, SLOT(updateData()));
 
     //to activate the shooters when zombies are entering the rows
     for (int i = 0; i < 5; i++)
     {
         zombieChecker[i]->setLine(0,0,1450,0);
-        zombieChecker[i]->setPen(QPen(QColor(0,0,0)));
+        zombieChecker[i]->setPen(QPen(QColor(0,0,0,0)));
         zombieChecker[i]->setPos(200,270 + 150*i);
         addItem(zombieChecker[i]);
     }
+    label1 = new QGraphicsTextItem("");
+    //label1->setHtml("<div style='background-color:#666666;'> </div>");
+    label1->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Zombies Killed: ") + QString("</div>") ));
+    addItem(label1);
+    label1->setPos(200,70);
+
+    zombiesKilledDisplay = new QLCDNumber();
+    zombiesKilledDisplay->setSegmentStyle(QLCDNumber::Flat);
+    zombiesKilledDisplay->setFixedSize(QSize(100,50));
+    //zombiesKilledDisplay->setPalette(Qt::red);
+
+    zombiesKilled = addWidget(zombiesKilledDisplay);
+    zombiesKilled->setPos(450,70);
+
+    zombiesKilledDisplay->display(player->getZombiesKilled());
+
+    label2 = new QGraphicsTextItem("");
+    label2->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Money Left: ") + QString("</div>") ));
+    addItem(label2);
+    label2->setPos(700,70);
+
+    moneyLeftDisplay = new QLCDNumber();
+    moneyLeftDisplay->setSegmentStyle(QLCDNumber::Flat);
+    moneyLeftDisplay->setFixedSize(QSize(100,50));
+
+    moneyLeft = addWidget(moneyLeftDisplay);
+    moneyLeft->setPos(900,70);
+
+    moneyLeftDisplay->display(player->getZombiesKilled());
+
+    label3 = new QGraphicsTextItem("");
+    label3->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Lives Left: ") + QString("</div>")));
+    addItem(label3);
+    label3->setPos(1200,70);
+
+    livesLeftDisplay = new QLCDNumber();
+    livesLeftDisplay->setSegmentStyle(QLCDNumber::Flat);
+    livesLeftDisplay->setFixedSize(QSize(100,50));
+
+    livesLeft = addWidget(livesLeftDisplay);
+    livesLeft->setPos(1400,70);
+
+    livesLeftDisplay->display(player->getLives());
+
+
 }
 
 void Scene::spawnEnemies()
 {
     spawnDelay++;
     if (spawnDelay % 20 != 0)
-        return;
+       return;
+
     if (zombieCounter == 99)
         return;
 
@@ -160,6 +207,23 @@ void Scene::activateShooters(int row)
 
     for (int i = (0 + 10*row), n = (i+10); i < n; i++)
        gridVector[i]->deactivate();
-       return;
+    return;
+}
+
+void Scene::updateData()
+{
+    zombiesKilledDisplay->display(player->getZombiesKilled());
+    moneyLeftDisplay->display(player->getMoney());
+    livesLeftDisplay->display(player->getLives());
+    if (player->getLives() == 0)
+    {
+
+        disconnect(tmove, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
+
+        disconnect(tmove, SIGNAL(timeout()), this, SLOT(updateData()));
+        gameOver = new QMessageBox();
+        gameOver->setText("Game Over!");
+        gameOver->show();
+    }
 }
 
