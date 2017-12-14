@@ -9,7 +9,7 @@ public:
     void subtractLives();
     void addZombiesKilled();
     void addMoney(int m);
-    void subtractMoney();
+    void subtractMoney(int m);
     void increaseZombieSpeed();
     int getMoney() const;
     int getZombiesKilled() const;

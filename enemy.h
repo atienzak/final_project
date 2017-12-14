@@ -12,8 +12,8 @@ class Enemy : public QGraphicsItem
 public:
     Enemy(QGraphicsItem * parent = 0); // constructor
     Enemy (const Enemy& other); // copy constructor
-    Enemy& operator=(Enemy& rhs) = default; // assignment operator
-    ~Enemy() = default; // destructor
+    Enemy& operator=(Enemy& rhs) = default; // assignment operator, no memory managed so default
+    ~Enemy() = default; // destructor, no memory managed so default
 
     //reimplementing virtual functions
     QRectF boundingRect() const;

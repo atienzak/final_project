@@ -17,14 +17,13 @@ void Player::addZombiesKilled()
 
 void Player::addMoney(int m)
 {
-    money += m
-            ; // adds 10 everytime a zombie is killed; costs 50 to build a shooter
+    money += m; // adds 10 everytime a zombie is killed; costs 50 to build a shooter
 }
 
-void Player::subtractMoney()
+void Player::subtractMoney(int m)
 {
-    if (money >= 50)
-        money -= 50; // costs 50 to build a shooter
+    if (money >= m)
+        money -= m; // costs 50 to build a shooter
 }
 
 void Player::increaseZombieSpeed()

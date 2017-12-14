@@ -10,8 +10,28 @@ Grid::Grid(QGraphicsWidget *parent) : QGraphicsWidget(parent), shooter(nullptr)
     {
         delete shooter;
         shooter = nullptr;
-        throw;
+        throw 42;
     }
+}
+
+Grid::Grid(const Grid& other) : shooter (other.shooter)
+{}
+
+Grid& Grid::operator=(Grid rhs) // copy-swap functionality
+{
+    this->swap(rhs);
+    return *this;
+}
+
+Grid::~Grid()
+{
+    delete shooter;
+}
+
+// to be used for copy-swap functionality
+void Grid::swap(Grid &rhs)
+{
+    std::swap(shooter, rhs.shooter);
 }
 
 /**
@@ -25,7 +45,7 @@ void Grid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     //making the size of the grid, with an offset to match the background coordinates -
     QRectF bounds = QRectF(-13,-15,152,152);
 
-    //customizing rectangle
+    //customizing rectangle to match the background
     QColor color = QColor(215,215,193); // grayish-white color
     QBrush cst = QBrush(color, Qt::SolidPattern);
     QPen pen = QPen(cst, 1, Qt::SolidLine, Qt::RoundCap);
@@ -71,9 +91,13 @@ QSizeF Grid::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
     return constraint;
 }
 
+/**
+ * @brief Grid::checkEnemyCollision deletes the shooter housed in the grid and the enemy when they meet
+ * @return true if if enemy collides with grid, false otherwise
+ */
 bool Grid::checkEnemyCollision()
 {
-    //returns all the items colliding with the bullet
+    //returns all the items colliding with the grid
     QList<QGraphicsItem*> colliding_list = collidingItems();
 
     //if the item is an enemy, then delete the bullet
@@ -84,62 +108,66 @@ bool Grid::checkEnemyCollision()
         {
            delete item;
            delete shooter;
-           shooter = new Shooter();
+           shooter = new Shooter(); // need to house another shooter again if the user wants to create
+                                    // another shooter within the grid
            return true;
         }
+        item = nullptr;
     }
     return false;
 }
 
+/**
+ * @brief Grid::activate activates the shooter to shoot; this function is called upon by the scene because scene do not have access to shooter itself
+ */
 void Grid::activate()
 {
-    if (shooter->parentItem() != this) // shooter is not built in the grid yet
+    if (shooter->parentItem() != this) // shooter is not "built" in the grid yet
         return;
 
     shooter->activate();
 }
 
+/**
+ * @brief Grid::deactivate adectivates the shooter from shooting; this function is called upon by the scene because scene do not have access to shooter itself
+ */
 void Grid::deactivate()
 {
-    if (shooter->parentItem() != this)
+    if (shooter->parentItem() != this) // shooter is not "built" in the grid yet
         return;
 
     shooter->deactivate();
 }
 
+/**
+ * @brief Grid::advance called upon by the scene to check for enemy collisions as set by scene's timer
+ * @param phase 0 to get ready for scene change, 1 to run
+ */
 void Grid::advance(int phase)
 {
     if (!phase)
         return;
-
     checkEnemyCollision();
 }
 
-//QRectF Grid::boundingRect()
-//{
-    //return;
-//}
-
 /**
- * @brief Grid::mousePressEvent to create the shooters
+ * @brief Grid::mousePressEvent to create the shooter
  * @param event mouse press event
  */
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (player->getMoney() < 50)
+    if (player->getMoney() < 50) // can't build of player doesn't have enough money
         return;
 
-     // to make the shooter
+    // shooter already exists on the heap, just needs to show up on the grid
     if (shooter->parentItem() != this)
     {
-     shooter->setParentItem(this);
-     shooter->setPos(-10,0); // centering the shooter within the bounds
-     // for debugging purposes only
-     qDebug() << "grid clicked";
+        shooter->setParentItem(this);
+        shooter->setPos(-10,0); // centering the shooter within the bounds
     }
 
-    player->subtractMoney();
+    player->subtractMoney(50); // subtracts money from player once created
 
-     QGraphicsItem::mousePressEvent(event);
+    QGraphicsItem::mousePressEvent(event);
 }
 
