@@ -1,3 +1,9 @@
+/**
+  Keith Atienza - Defend the Den
+  Date Finished: December 14, 2017
+  Submitted as the final project for PIC 10C, Fall 2017
+*/
+
 #ifndef SHOOTER_H
 #define SHOOTER_H
 #include <QGraphicsPixmapItem>
