@@ -1,27 +1,39 @@
 #include "enemy.h"
 
-
 Enemy::Enemy(QGraphicsItem *parent) :
     QGraphicsItem(parent),
     currentFrame(0),
-    enemyPixmap(QPixmap(":/images/zombiesprite").scaled(1002,162)),
-    moveSpeed(10)
+    enemyPixmap(QPixmap(":/images/zombiesprite").scaled(1002,162)) // sprite png image
+{
+    setFlag(ItemClipsToShape); // to set up shape of the enemy
+}
+
+Enemy::Enemy(const Enemy &other) : currentFrame(other.currentFrame), enemyPixmap(other.enemyPixmap)
 {
     setFlag(ItemClipsToShape);
-    timer.start(); // for debugging purposes only
 }
 
 
+/**
+ * @brief Enemy::boundingRect sets the boundaries of the moving Enemy
+ * @return the size of its rectangular boundaries
+ */
 QRectF Enemy::boundingRect() const
 {
-    return QRectF(0,0,167,167);
+    return QRectF(0,0,162,162);
 }
 
+/**
+  * @brief Enemy::paint drawing the enemy using painter
+  * @param painter to set the pixmap image of the enemy
+  * @param option unused
+  * @param widget unused
+  */
  void Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget* widget)
 {
      //draw Pixmap on its current frame
      painter->drawPixmap(0,0,enemyPixmap,currentFrame, 0, 167,167);
-     setTransformOriginPoint(boundingRect().center());
+     setTransformOriginPoint(boundingRect().center()); // center item in bounds
 
      Q_UNUSED(widget);
      Q_UNUSED(option);
@@ -36,50 +48,30 @@ void Enemy::advance(int phase)
     if (!phase)
         return;
 
-    setPos(x()-moveSpeed,y());
+    // need zombie speed outside of class because enemies spawn at different times, so need to keep speed
+    setPos(x()-(player->getzombieSpeed()),y());
 
     if (x() <= 0)
     {       
-        qDebug() << "enemy deleted";
         player->subtractLives();
-        qDebug() << "lives left " << player->getLives();
         delete this;
     }
 
+    nextFrame();
+
+    player->increaseZombieSpeed(); // will only trigger once every 10 zombies killed, per player class implementation
+}
+
+/**
+ * @brief Enemy::nextFrame paints onto the next frame of the zombie png image
+ */
+void Enemy::nextFrame()
+{
     //to repaint with the next frame; pixmap is a sprite
     currentFrame+=167;
     if (currentFrame >= 1002)
         currentFrame = 0;
-
-    //for debugging puposes only
-    int nMilliseconds = timer.elapsed();
-    //qDebug() << "moving enemy: " << nMilliseconds;
-    timer.restart();
-
-    increaseMoveSpeed(player->getZombiesKilled());
-
 }
 
-void Enemy::increaseMoveSpeed(int zombieskilled)
-{
 
-    if (player->getZombiesKilled() >= 10 && player->getZombiesKilled() < 20 && moveSpeed == 10)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 20 && player->getZombiesKilled() < 30 && moveSpeed == 15)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 30 && player->getZombiesKilled() < 40 && moveSpeed == 20)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 40 && player->getZombiesKilled() < 50 && moveSpeed == 25)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 50 && player->getZombiesKilled() < 60 && moveSpeed == 30)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 60 && player->getZombiesKilled() < 70 && moveSpeed == 35)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 70 && player->getZombiesKilled() < 80 && moveSpeed == 40)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 80 && player->getZombiesKilled() < 90 && moveSpeed == 45)
-        moveSpeed +=5;
-    else if (player->getZombiesKilled() >= 90 && player->getZombiesKilled() < 100 && moveSpeed == 50)
-        moveSpeed +=5;
-}
 

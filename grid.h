@@ -21,6 +21,7 @@ public:
     void activate();
     void deactivate();
     void advance(int phase);
+   // QRectF boundingRect();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 

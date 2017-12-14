@@ -219,8 +219,8 @@ void Scene::updateData()
     {
 
         disconnect(tmove, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
-
         disconnect(tmove, SIGNAL(timeout()), this, SLOT(updateData()));
+
         gameOver = new QMessageBox();
         gameOver->setText("Game Over!");
         gameOver->show();

@@ -115,6 +115,11 @@ void Grid::advance(int phase)
     checkEnemyCollision();
 }
 
+//QRectF Grid::boundingRect()
+//{
+    //return;
+//}
+
 /**
  * @brief Grid::mousePressEvent to create the shooters
  * @param event mouse press event

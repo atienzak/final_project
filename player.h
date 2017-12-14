@@ -8,17 +8,20 @@ public:
     Player();
     void subtractLives();
     void addZombiesKilled();
-    void addMoney();
+    void addMoney(int m);
     void subtractMoney();
+    void increaseZombieSpeed();
     int getMoney() const;
     int getZombiesKilled() const;
     int getLives() const;
+    int getzombieSpeed() const;
 
 private:
 
     int lives;
     int zombiesKilled;
     int money;
+    int zombieSpeed;
 
 
 };
