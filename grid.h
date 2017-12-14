@@ -29,7 +29,7 @@ public:
     void advance(int phase) override;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent * event) override; // to make shooters
 
 private:
     //shooter housed within the grid

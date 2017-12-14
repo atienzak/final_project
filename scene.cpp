@@ -6,12 +6,24 @@ Scene::Scene() :
     form(nullptr),
     boardLayout(nullptr),
     tmove(nullptr),
+    spawnDelay(0),
+    randomPos(0),
     zombies({}),
     zombieCounter(0),
-    spawnDelay(19),
-    randomPos(0)
+    zombieChecker({}),
+    label1(nullptr),
+    zombiesKilledDisplay(nullptr),
+    zombiesKilled(nullptr),
+    label2(nullptr),
+    moneyLeftDisplay(nullptr),
+    moneyLeft(nullptr),
+    label3(nullptr),
+    livesLeftDisplay(nullptr),
+    livesLeft(nullptr),
+    gameOver(nullptr)
+
 {
-    srand(time(nullptr));
+    srand(time(nullptr)); // seeed for the timer
 
     //initializing values through try-catch
     try
@@ -19,7 +31,12 @@ Scene::Scene() :
         boardLayout = new QGraphicsGridLayout;
         form = new QGraphicsWidget;
         tmove = new QTimer;
-        spawnTimer = new QTimer;
+        label1 = new QGraphicsTextItem("");
+        label2 = new QGraphicsTextItem("");
+        label3 = new QGraphicsTextItem("");
+        zombiesKilledDisplay = new QLCDNumber();
+        moneyLeftDisplay = new QLCDNumber();
+        livesLeftDisplay = new QLCDNumber();
 
         for (int i = 0; i < 50; i++) // for a 10x5 board
         {
@@ -30,7 +47,7 @@ Scene::Scene() :
         {
             zombies.push_back(new Enemy);
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++) // row zombies checker
         {
             zombieChecker.push_back(new QGraphicsLineItem);
         }
@@ -41,18 +58,47 @@ Scene::Scene() :
         delete boardLayout;
         delete form;
         delete tmove;
-        delete spawnTimer;
+        delete label1;
+        delete label2;
+        delete label3;
+        delete zombiesKilledDisplay;
+        delete livesLeftDisplay;
+        delete moneyLeftDisplay;
 
         for (int i = 0, n = gridVector.size(); i < n; i++)
         {
             delete gridVector[i];
         }
+        for (int i = 0, n = zombies.size(); i < n; i++)
+        {
+            delete zombies[i];
+        }
+        for (int i = 0, n = zombieChecker.size(); i < n; i++)
+        {
+            delete zombieChecker[i];
+        }
 
         boardLayout = nullptr;
+        form = nullptr;
+        tmove = nullptr;
+        label1 = nullptr;
+        label2 = nullptr;
+        label3 = nullptr;
+        zombiesKilledDisplay = nullptr;
+        livesLeftDisplay = nullptr;
+        moneyLeftDisplay = nullptr;
 
         for (int i = 0, n = gridVector.size(); i < n; i++)
         {
             gridVector[i] = nullptr;
+        }
+        for (int i = 0, n = zombies.size(); i < n; i++)
+        {
+            zombies[i] = nullptr;
+        }
+        for (int i = 0, n = zombieChecker.size(); i < n; i++)
+        {
+            zombieChecker[i] = nullptr;
         }
 
         throw;
@@ -65,16 +111,6 @@ Scene::Scene() :
 
     constructBoard();
 
-    tmove->setTimerType(Qt::PreciseTimer);
-    connect(tmove, SIGNAL(timeout()), this, SLOT(advance()));
-    // connect (tmove, SIGNAL(timeout()), this, SLOT(working()));
-    tmove->start(100);
-
-    //spawnTimer->setTimerType(Qt::PreciseTimer);
-    connect(tmove, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
-    //spawnTimer->start(1000);
-    connect(tmove, SIGNAL(timeout()), this, SLOT(updateData()));
-
     //to activate the shooters when zombies are entering the rows
     for (int i = 0; i < 5; i++)
     {
@@ -83,57 +119,79 @@ Scene::Scene() :
         zombieChecker[i]->setPos(200,270 + 150*i);
         addItem(zombieChecker[i]);
     }
-    label1 = new QGraphicsTextItem("");
-    //label1->setHtml("<div style='background-color:#666666;'> </div>");
+
+    //zombies killed display
     label1->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Zombies Killed: ") + QString("</div>") ));
     addItem(label1);
     label1->setPos(200,70);
-
-    zombiesKilledDisplay = new QLCDNumber();
     zombiesKilledDisplay->setSegmentStyle(QLCDNumber::Flat);
     zombiesKilledDisplay->setFixedSize(QSize(100,50));
-    //zombiesKilledDisplay->setPalette(Qt::red);
-
     zombiesKilled = addWidget(zombiesKilledDisplay);
     zombiesKilled->setPos(450,70);
-
     zombiesKilledDisplay->display(player->getZombiesKilled());
 
-    label2 = new QGraphicsTextItem("");
+    //money left display
     label2->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Money Left: ") + QString("</div>") ));
     addItem(label2);
     label2->setPos(700,70);
-
-    moneyLeftDisplay = new QLCDNumber();
     moneyLeftDisplay->setSegmentStyle(QLCDNumber::Flat);
     moneyLeftDisplay->setFixedSize(QSize(100,50));
-
     moneyLeft = addWidget(moneyLeftDisplay);
     moneyLeft->setPos(900,70);
-
     moneyLeftDisplay->display(player->getZombiesKilled());
 
-    label3 = new QGraphicsTextItem("");
+    //lives left display
     label3->setHtml(QString("<div style='color:rgba(255, 255, 255, 100%); font-size: 35px'>" + QString("Lives Left: ") + QString("</div>")));
     addItem(label3);
     label3->setPos(1200,70);
-
-    livesLeftDisplay = new QLCDNumber();
     livesLeftDisplay->setSegmentStyle(QLCDNumber::Flat);
     livesLeftDisplay->setFixedSize(QSize(100,50));
-
     livesLeft = addWidget(livesLeftDisplay);
     livesLeft->setPos(1400,70);
-
     livesLeftDisplay->display(player->getLives());
+
+    tmove->setTimerType(Qt::PreciseTimer);
+    connect(tmove, SIGNAL(timeout()), this, SLOT(advance()));
+    connect(tmove, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
+    connect(tmove, SIGNAL(timeout()), this, SLOT(updateData()));
+    tmove->start(100);
 
 
 }
 
+Scene::~Scene()
+{
+    delete tmove;
+    delete label1;
+    delete label2;
+    delete label3;
+    delete zombiesKilledDisplay;
+    delete livesLeftDisplay;
+    delete moneyLeftDisplay;
+
+    for (int i = 0, n = gridVector.size(); i < n; i++)
+    {
+        delete gridVector[i];
+    }
+    for (int i = 0, n = zombies.size(); i < n; i++)
+    {
+        delete zombies[i];
+    }
+    for (int i = 0, n = zombieChecker.size(); i < n; i++)
+    {
+        delete zombieChecker[i];
+    }
+}
+
+
+/**
+ * @brief Scene::spawnEnemies makes enemy and puts them in random place in the board
+ *  and activates the appropriate shooters in which the zombies are coming through
+ */
 void Scene::spawnEnemies()
 {
     spawnDelay++;
-    if (spawnDelay % 20 != 0)
+    if (spawnDelay % 20 != 0) // to delay the enemies spawning every call to advance
        return;
 
     if (zombieCounter == 99)
@@ -164,6 +222,9 @@ void Scene::spawnEnemies()
     spawnDelay = 0;
 }
 
+/**
+ * @brief Scene::constructBoard sets up the board
+ */
 void Scene::constructBoard()
 {
     int j = 0;
@@ -188,6 +249,10 @@ void Scene::constructBoard()
     form->setPos(170,197);
 }
 
+/**
+ * @brief Scene::activateShooters if the
+ * @param row the row to activate the shooters
+ */
 void Scene::activateShooters(int row)
 {
     //returns all the items colliding with the zombieChecker line in each row
@@ -203,6 +268,7 @@ void Scene::activateShooters(int row)
                 gridVector[i]->activate(); // the grid already has a checker in this function in case no shooter exists
            return;
         }
+        item = nullptr;
     }
 
     for (int i = (0 + 10*row), n = (i+10); i < n; i++)
@@ -210,6 +276,9 @@ void Scene::activateShooters(int row)
     return;
 }
 
+/**
+ * @brief Scene::updateData updates the data displays above the game
+ */
 void Scene::updateData()
 {
     zombiesKilledDisplay->display(player->getZombiesKilled());

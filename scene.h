@@ -21,11 +21,13 @@ class Scene :public QGraphicsScene
 
 public:
     Scene();
-    void constructBoard();
+    Scene(const Scene& other) = delete; // there can only be one scene
+    Scene& operator=(Scene rhs) = delete;
+    ~Scene();
+
 
 protected:
     void activateShooters(int row);
-
 
 protected slots:
     void spawnEnemies();
@@ -33,6 +35,8 @@ protected slots:
 
 
 private:
+
+    void constructBoard();
 
     //background item
     QPixmap background;
@@ -45,16 +49,15 @@ private:
     //timer for animation
     QTimer* tmove;
 
-    //timer to spawn zombies
-    QTimer* spawnTimer;
+    //needed to spawn zombies
     int spawnDelay;
     int randomPos;
-
     QVector<Enemy*> zombies;
     int zombieCounter;
 
-    QVector<QGraphicsLineItem*> zombieChecker;
+    QVector<QGraphicsLineItem*> zombieChecker; // to check if zombie is in any of the rows
 
+    //for the displays that hover above the game
     QGraphicsTextItem* label1;
     QLCDNumber* zombiesKilledDisplay;
     QGraphicsProxyWidget* zombiesKilled;

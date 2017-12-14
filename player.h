@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+// this class will be used as an external variuable to hold the game's data
 
 class Player
 {

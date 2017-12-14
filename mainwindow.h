@@ -10,6 +10,7 @@ namespace Ui {
 class MainWindow;
 }
 
+//houses the graphics view and the game
 
 class MainWindow : public QMainWindow
 {
@@ -18,13 +19,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    View * testv;
-    Scene * tests;
+
 
 
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui; // unused
+    Scene * tests;
+    View * testv;
 
 
 

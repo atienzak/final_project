@@ -4,16 +4,18 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    tests(nullptr),
+    testv(nullptr)
 {
-
     ui->setupUi(this);
 
     tests = new Scene();
     testv = new View(tests);
     setCentralWidget(testv);
-    setFixedSize(1200,769);
+    //setFixedSize(1200,769);
 
+    setWindowTitle(QString("DEFEND THE DEN"));
 
 }
 

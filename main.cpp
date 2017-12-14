@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include "view.h"
 #include "player.h"
 
 Player* player = new Player();

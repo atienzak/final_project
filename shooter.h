@@ -6,19 +6,26 @@
 class Shooter : public QGraphicsPixmapItem
 {
 public:
+
     Shooter(QGraphicsItem * parent = 0);
+    Shooter(const Shooter& other);
+    Shooter& operator=(Shooter rhs);
+    ~Shooter();
+    void swap(Shooter& rhs);
+
+
     void spawnBullet(bool shoot);
     void advance(int phase);
     bool isShooting();
     void activate();
     void deactivate();
-   // bool checkEnemyCollision();
+
 
 private:
     QVector<Bullet*> bullets;
     int bulletTimeDelay;
     int shooting;
-    //Bullet newbullet;
+
 
 };
 #endif
