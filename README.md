@@ -20,6 +20,6 @@ Why I didn't use:
 * Smart Pointers - whenever things are colliding, for example a bullet to a zombie, I had to delete those items manually.
 * Lambda Functions, Templates, etc. - I did not find the need to use these; maybe in the future, when I intend to improve my game.
 
-### Overall Impressions
+### Final Impressions
 
 It took me way longer to learn Qt than I have anticipated; however, though the learning curve was steep, I was able to get comfortable with it after a few weeks even though it took time away from some of the stuff I wanted to include with my game. Overall, this final project was definitely enjoyable, and I am glad to have learned a new skill through Qt, as I have always wanted to make a GUI application. 
