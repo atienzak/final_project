@@ -1,6 +1,6 @@
 # Defend the Den
 
-![alt text](https://imgur.com/a/j6Dz4)
+![alt text](http://oi63.tinypic.com/2rr6kk2.jpg)
 
 My intended final project for PIC 10C would be a game similar to Plants vs. Zombies, in which a player can place defenders along a grid-like structure to prevent monsters from destroying the den. Instead of having different levels, the rate of 
 monsters coming along would increase as time goes by, with the objective of the game being to hold out as long as the player can.
